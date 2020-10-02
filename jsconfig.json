@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "jsx": "preserve",
+        "paths": {
+            "*": [
+                "./src/*"
+            ],
+            "@screens/*": [
+                "./src/screens/*"
+            ],
+            "@redux/*": [
+                "./src/redux/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ],
+            "@config/*": [
+                "./src/config/*"
+            ],
+            "@utils/*": [
+                "./src/utils/*"
+            ],
+            "@i18nn/*": [
+                "./src/i18n/*"
+            ],
+            "@navigator/*": [
+                "./src/navigator/*"
+            ]
+        }
+    }
+}
