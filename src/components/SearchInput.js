@@ -1,13 +1,13 @@
-import { COLORS } from 'common/styleGlobal';
 import React, { useState, forwardRef } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import SActivityIndicator from './SActivityIndicator';
+import { COLORS } from 'common/StyleCommon';
 
 const SearchInput = forwardRef(({ loading, style, inputStyle, marginHorizontal, onFocus, onBlur, onClear, ...props }, ref) => {
     const [focus, setFocus] = useState(false)
     let borderStyle = {
-        borderColor: focus ? COLORS.FOCUS : COLORS.UN_FOCUS,
+        borderColor: focus ? COLORS.BLUE : COLORS.BLACK,
     }
 
     const onFocus_ = (e) => {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 50,
         borderColor: '#E7E8EB',
     },
     textInput: {

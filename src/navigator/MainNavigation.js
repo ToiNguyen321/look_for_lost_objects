@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from 'react'
+import { TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { setNavigator } from './NavigationService';
+import SCREENS from 'navigator';
+
 import HomeScreen from 'screens/Home'
 import Profile from 'screens/Profile';
 import Search from 'screens/Search';
-import SCREENS from 'navigator';
-import { setNavigator } from './NavigationService';
-import { TouchableOpacity } from 'react-native';
+import AddNew from 'screens/Home/AddNew';
+import AddressPicker from 'screens/AddressPicker';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -16,9 +19,16 @@ const Stack = createStackNavigator();
 const ScreenOption = (navigation, route, dispatch) => {
 
   if (!route.state || !route.state.routeNames) return {
-    headerTitle: '',
-    headerLeft: '',
-    headerRight: '',
+    headerTitle: 'Home',
+    headerLeft: null,
+    headerRight: () => {
+      return <TouchableOpacity
+        style={{ marginRight: 15, }}
+        onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}
+      >
+        <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
+      </TouchableOpacity>
+    }
   };
 
   // use this params to set action for header button
@@ -117,6 +127,8 @@ export default function MainNavigation() {
     <NavigationContainer ref={navigation}>
       <Stack.Navigator>
         <Stack.Screen name={SCREENS.MAIN_TAB} component={MainTabs} />
+        <Stack.Screen name={SCREENS.HOME.ADD} component={AddNew} />
+        <Stack.Screen name={SCREENS.COMMON.CHOOSE_ADDRESS} component={AddressPicker} />
       </Stack.Navigator>
     </NavigationContainer>
   );

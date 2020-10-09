@@ -1,20 +1,20 @@
-import { FONT_SIZE, SHADOW_BOX } from 'common/styleGlobal'
 import React from 'react'
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { BORDER_RADIUS, DIMENTSIONS, FONT_SIZE, SHADOW_BOX } from 'common/StyleCommon'
 
-const HomeItem = ({ item }) => {
+const HomeItem = ({ item, paddingBottom }) => {
     return (
         <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => alert('123')}
-            style={{ marginHorizontal: 15, marginBottom: 15 }}
+            style={[styles.container, { paddingBottom }]}
         >
             <ImageBackground
                 style={styles.image}
                 source={{ uri: 'https://file.hstatic.net/1000069970/file/mini-wallet_1024x1024.png' }}>
-                <LinearGradient colors={['#00000005', '#00000099']} style={styles.container}>
+                <LinearGradient colors={['#00000005', '#000000']} style={styles.content}>
                     <Text numberOfLines={2} style={styles.title}>{item.title}</Text>
                     <View style={styles.viewMap}>
                         <FontAwesome name='map-marker' color={'#fff'} size={18} />
@@ -39,16 +39,21 @@ const HomeItem = ({ item }) => {
 export default HomeItem
 
 const styles = StyleSheet.create({
+    container: {
+        marginHorizontal: 15,
+        width: DIMENTSIONS.WIDTH - 30,
+        height: 190,
+    },
     image: {
         resizeMode: "cover",
         justifyContent: "flex-end",
-        borderRadius: 10,
+        borderRadius: BORDER_RADIUS.BIG,
         overflow: 'hidden',
         borderColor: '#000',
         ...SHADOW_BOX(5),
-        height: 170,
+        flex: 1,
     },
-    container: {
+    content: {
         backgroundColor: 'rgba(0,0,0,0.4)',
         paddingHorizontal: 10,
     },

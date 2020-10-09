@@ -1,7 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
-import { SearchInput } from 'components'
+import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
 import HomeItem from 'components/Home/HomeItem'
+import stylesGlobal from 'theme/stylesGlobal'
+import { BORDER_RADIUS, COLORS, FONT_SIZE } from 'common/StyleCommon'
+import { ActionButton } from 'components'
+import SCREENS from 'navigator'
 
 const dataExample = [
     {
@@ -30,7 +33,7 @@ const dataExample = [
         Occaecat excepteur anim in duis pariatur amet incididunt et esse exercitation minim. Sunt nostrud aute reprehenderit consectetur ut aute voluptate voluptate velit laboris consequat aliquip est. Consectetur cupidatat voluptate consectetur cillum labore Lorem Lorem labore aliqua laborum fugiat consectetur enim. Incididunt eiusmod enim esse exercitation irure proident mollit fugiat cupidatat nulla. Fugiat proident laborum aliquip sint id irure anim pariatur consectetur nostrud non ea culpa ad.
         Sunt adipisicing exercitation qui aliqua esse irure nisi. Commodo laboris nostrud eu ad nisi incididunt sint elit labore. Ipsum pariatur pariatur nostrud consectetur aliquip ullamco nulla do officia exercitation cupidatat. Dolor reprehenderit magna consequat est nisi laborum.
         Minim esse proident mollit cupidatat culpa. Sit veniam quis anim ea do et excepteur. Ullamco quis sit qui aute cupidatat occaecat tempor id sint duis. Sit ea est laborum nisi id qui occaecat nisi elit ipsum id. Lorem officia dolore cupidatat minim mollit. Enim eu dolore eu non sunt officia laborum.`
-    
+
     },
     {
         id: 2,
@@ -46,28 +49,70 @@ const dataExample = [
         Sunt adipisicing exercitation qui aliqua esse irure nisi. Commodo laboris nostrud eu ad nisi incididunt sint elit labore. Ipsum pariatur pariatur nostrud consectetur aliquip ullamco nulla do officia exercitation cupidatat. Dolor reprehenderit magna consequat est nisi laborum.
         Minim esse proident mollit cupidatat culpa. Sit veniam quis anim ea do et excepteur. Ullamco quis sit qui aute cupidatat occaecat tempor id sint duis. Sit ea est laborum nisi id qui occaecat nisi elit ipsum id. Lorem officia dolore cupidatat minim mollit. Enim eu dolore eu non sunt officia laborum.`
     },
-    
+
 ]
-export default function Home() {
+export default function Home({ navigation, route }) {
 
     const renderItem = ({ item, index }) => {
         return <HomeItem item={item} />
     }
 
+    const renderItem2 = ({ item, index }) => {
+        return <HomeItem item={item} paddingBottom={15} />
+    }
+
     return (
-        <SafeAreaView style={styles.container}>
-            <SearchInput style={{ marginHorizontal: 15, marginBottom: 15 }} />
-            <FlatList
-                contentContainerStyle={styles.flatListContent}
-                data={dataExample}
-                renderItem={renderItem}
-                keyExtractor={i => `${i.id}`}
+        <View style={[stylesGlobal.container]}>
+            <ScrollView>
+                <View style={styles.viewNews}>
+                    <Text style={styles.title}>Tin nổi bật</Text>
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                        pagingEnabled
+                        data={dataExample}
+                        renderItem={renderItem}
+                        keyExtractor={i => `${i.id}`}
+                    />
+                </View>
+
+                <View style={styles.viewNews}>
+                    <Text style={styles.title}>Tin đăng mới nhất</Text>
+                    <FlatList
+                        data={dataExample}
+                        renderItem={renderItem2}
+                        keyExtractor={i => `${i.id}`}
+                    />
+                </View>
+
+            </ScrollView>
+            <ActionButton
+                buttonsDefault={[
+                    {
+                        backgroundColor: COLORS.BLACK,
+                        onPress: () => navigation.navigate(SCREENS.HOME.ADD)
+                    }
+                ]}
             />
-        </SafeAreaView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff' },
-    flatListContent: { flexGrow: 1, backgroundColor: '#fff' }
+    viewNews: {
+        marginBottom: 20,
+    },
+    title: {
+        marginHorizontal: 15,
+        paddingVertical: 10,
+        marginBottom: 5,
+        fontSize: FONT_SIZE.BIG_HEADER,
+        fontWeight: 'bold',
+        color: COLORS.BLACK,
+        borderRadius: BORDER_RADIUS.VERY_SMALL,
+        overflow: 'hidden'
+    },
+    flatListContent: {
+        backgroundColor: '#fff'
+    },
 })
