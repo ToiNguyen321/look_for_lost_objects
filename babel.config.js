@@ -1,14 +1,17 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
-  "plugins": [
-    ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ["module-resolver", {
-      "root": ["./src"],
-      "alias": {
-        "@components": "./src/components",
-        "@screens": "./src/screens",
-        "@navigator": "./src/navigator"
-      }
-    }]
-  ]
+  plugins: [
+    ['@babel/plugin-proposal-decorators', {legacy: true}],
+    [
+      'module-resolver',
+      {
+        root: ['./src'],
+        alias: {
+          '@components': './src/components',
+          '@screens': './src/screens',
+          '@navigator': './src/navigator',
+        },
+      },
+    ],
+  ],
 };

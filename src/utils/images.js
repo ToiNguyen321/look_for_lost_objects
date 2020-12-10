@@ -1,7 +1,7 @@
-import loading from 'assets/images/loading.png'
+import loading from 'assets/images/loading.png';
 
 const IMAGES = {
-    LOADING: loading
-}
+  LOADING: loading,
+};
 
-export default IMAGES
+export default IMAGES;

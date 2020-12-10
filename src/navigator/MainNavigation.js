@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from 'react'
-import { TouchableOpacity } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import { setNavigator } from './NavigationService';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useRef} from 'react';
+import {TouchableOpacity} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {setNavigator} from './NavigationService';
 import SCREENS from 'navigator';
 
-import HomeScreen from 'screens/Home'
+import HomeScreen from 'screens/Home';
 import Profile from 'screens/Profile';
 import Search from 'screens/Search';
 import AddNew from 'screens/Home/AddNew';
@@ -17,19 +18,21 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const ScreenOption = (navigation, route, dispatch) => {
-
-  if (!route.state || !route.state.routeNames) return {
-    headerTitle: 'Home',
-    headerLeft: null,
-    headerRight: () => {
-      return <TouchableOpacity
-        style={{ marginRight: 15, }}
-        onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}
-      >
-        <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
-      </TouchableOpacity>
-    }
-  };
+  if (!route.state || !route.state.routeNames) {
+    return {
+      headerTitle: 'Home',
+      headerLeft: null,
+      headerRight: () => {
+        return (
+          <TouchableOpacity
+            style={{marginRight: 15}}
+            onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}>
+            <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
+          </TouchableOpacity>
+        );
+      },
+    };
+  }
 
   // use this params to set action for header button
   switch (route.state.routeNames[route.state.index]) {
@@ -38,54 +41,53 @@ const ScreenOption = (navigation, route, dispatch) => {
         headerTitle: 'Home',
         headerLeft: null,
         headerRight: () => {
-          return <TouchableOpacity
-            style={{ marginRight: 15, }}
-            onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}
-          >
-            <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
-          </TouchableOpacity>
-        }
+          return (
+            <TouchableOpacity
+              style={{marginRight: 15}}
+              onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}>
+              <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
+            </TouchableOpacity>
+          );
+        },
       };
     case SCREENS.SEARCH.SEARCH:
       return {
         headerTitle: 'Search',
         headerLeft: null,
-        headerRight: null
+        headerRight: null,
       };
     case SCREENS.PROFILE.PROFILE:
       return {
         headerTitle: 'Profile',
         headerLeft: null,
-        headerRight: null
+        headerRight: null,
       };
     default:
       return {
         headerTitle: '',
         headerLeft: null,
-        headerRight: null
+        headerRight: null,
       };
   }
-}
+};
 
-function MainTabs({ navigation, route }) {
-  const screenOptions = ({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {
+function MainTabs({navigation, route}) {
+  const screenOptions = ({route_}) => ({
+    tabBarIcon: ({focused, color, size}) => {
       let iconName;
 
-      if (route.name === SCREENS.HOME.LIST) {
-        iconName = focused
-          ? 'ios-home'
-          : 'ios-home-outline';
-      } else if (route.name === SCREENS.SEARCH.SEARCH) {
+      if (route_.name === SCREENS.HOME.LIST) {
+        iconName = focused ? 'ios-home' : 'ios-home-outline';
+      } else if (route_.name === SCREENS.SEARCH.SEARCH) {
         iconName = focused ? 'ios-search' : 'ios-search';
-      } else if (route.name === SCREENS.PROFILE.PROFILE) {
+      } else if (route_.name === SCREENS.PROFILE.PROFILE) {
         iconName = focused ? 'ios-person' : 'ios-person-outline';
       }
 
       // You can return any component that you like here!
       return <Ionicons name={iconName} size={size} color={color} />;
     },
-  })
+  });
 
   React.useLayoutEffect(() => {
     navigation.setOptions(ScreenOption(navigation, route));
@@ -100,10 +102,8 @@ function MainTabs({ navigation, route }) {
   );
 }
 
-
 export default function MainNavigation() {
-
-  const navigation = useRef(null)
+  const navigation = useRef(null);
 
   useEffect(() => {
     setNavigator(navigation);
@@ -128,7 +128,10 @@ export default function MainNavigation() {
       <Stack.Navigator>
         <Stack.Screen name={SCREENS.MAIN_TAB} component={MainTabs} />
         <Stack.Screen name={SCREENS.HOME.ADD} component={AddNew} />
-        <Stack.Screen name={SCREENS.COMMON.CHOOSE_ADDRESS} component={AddressPicker} />
+        <Stack.Screen
+          name={SCREENS.COMMON.CHOOSE_ADDRESS}
+          component={AddressPicker}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

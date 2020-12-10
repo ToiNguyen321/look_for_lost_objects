@@ -1,16 +1,14 @@
-import React from 'react'
-import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native'
+import React from 'react';
+import {StyleSheet, Text, ScrollView} from 'react-native';
 
 const FeaturedNews = () => {
-    return (
-        <ScrollView style={styles.container}>
-            <Text></Text>
-        </ScrollView>
-    )
-}
+  return (
+    <ScrollView style={styles.container}>
+      <Text />
+    </ScrollView>
+  );
+};
 
-export default FeaturedNews
+export default FeaturedNews;
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create({});
