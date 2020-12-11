@@ -11,10 +11,11 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
+  Keyboard,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {SInput} from 'components';
+import {SButton, SInput} from 'components';
 
 import address_code from './address_code.json';
 import address_data from './address_data_full.json';
@@ -45,14 +46,14 @@ function* filter(array, condition, maxSize) {
  * @param districtId ID of district (nullable), use "district" from API
  */
 export default AddressPicker = ({navigation, route, ...props}) => {
-  // const callback =
-  //   route?.params?.callback ??
-  //   ((address, district, city) =>
-  //     console.log(
-  //       'AddressPicker --> put your address callback on params when use AddressPicker',
-  //     ));
+  const callback =
+    route?.params?.callback ??
+    ((address, district, city) =>
+      console.log(
+        'AddressPicker --> put your address callback on params when use AddressPicker',
+      ));
   const [address, setAddress] = useState(route?.params?.address ?? '');
-  // const [cityId, setCityId] = useState(null);
+  const [cityId, setCityId] = useState(null);
   const [districtId, setDistrictId] = useState(null);
 
   const [address2, setAddress2] = useState('');
@@ -112,36 +113,37 @@ export default AddressPicker = ({navigation, route, ...props}) => {
     });
   }, []);
 
-  // const confirmAddress = () => {
-  //   let errors = {};
-  //   if (!validate.length(address)) {
-  //     errors.address = 'Vui lòng nhập đúng địa chỉ';
-  //   } else {
-  //     errors.address = null;
-  //   }
-  //   if (!cityId || !districtId) {
-  //     errors.address2 = 'Vui lòng nhập đúng Quận/Huyện và Tỉnh/Thành Phố';
-  //   } else {
-  //     errors.address2 = null;
-  //   }
-  //   setErrors(errors);
-  //   // console.log("confirmAddress -> errors", errors)
+  const confirmAddress = () => {
+    let errors = {};
+    if (!validate.length(address)) {
+      errors.address = 'Vui lòng nhập đúng địa chỉ';
+    } else {
+      errors.address = null;
+    }
+    if (!cityId || !districtId) {
+      errors.address2 = 'Vui lòng nhập đúng Quận/Huyện và Tỉnh/Thành Phố';
+    } else {
+      errors.address2 = null;
+    }
+    setErrors(errors);
+    // console.log("confirmAddress -> errors", errors)
 
-  //   if (errors.address || errors.address2) {
-  //     return;
-  //   }
+    if (errors.address || errors.address2) {
+      return;
+    }
 
-  //   const ss = address2.split(', ');
-  //   callback({
-  //     address,
-  //     district: ss[0],
-  //     city: ss[1],
-  //     cityId,
-  //     districtId,
-  //   });
-  //   Keyboard.dismiss();
-  //   navigation.goBack();
-  // };
+    const ss = address2.split(', ');
+    callback &&
+      callback({
+        address,
+        district: ss[0],
+        city: ss[1],
+        cityId,
+        districtId,
+      });
+    Keyboard.dismiss();
+    navigation.goBack();
+  };
 
   return (
     <KeyboardAvoidingView
@@ -226,13 +228,13 @@ export default AddressPicker = ({navigation, route, ...props}) => {
           )}
         />
       </View>
-      {/* <SButtonShadow
-        title={'Lưu'}
+      <SButton
+        titleLeft={'Lưu'}
         animation={false}
         noPosition={true}
         hideWhenKeyboardAppears={false}
-        onPress={() => confirmAddress()}
-      /> */}
+        onPressLeft={() => confirmAddress()}
+      />
     </KeyboardAvoidingView>
   );
 };

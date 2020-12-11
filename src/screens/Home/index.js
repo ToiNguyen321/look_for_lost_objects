@@ -1,5 +1,12 @@
-import React from 'react';
-import {StyleSheet, Text, View, FlatList, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  LogBox,
+} from 'react-native';
 import HomeItem from 'components/Home/HomeItem';
 import stylesGlobal from 'theme/stylesGlobal';
 import {BORDER_RADIUS, COLORS, FONT_SIZE} from 'common/StyleCommon';
@@ -53,12 +60,20 @@ const dataExample = [
 ];
 
 export default function Home({navigation, route}) {
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const renderItem = ({item, index}) => {
-    return <HomeItem item={item} />;
+    const onPress = () =>
+      navigation.navigate(SCREENS.HOME.DETAIL, {id: item.id});
+    return <HomeItem item={item} onPress={onPress} />;
   };
 
   const renderItem2 = ({item, index}) => {
-    return <HomeItem item={item} paddingBottom={15} />;
+    const onPress = () =>
+      navigation.navigate(SCREENS.HOME.DETAIL, {id: item.id});
+    return <HomeItem item={item} onPress={onPress} paddingBottom={15} />;
   };
 
   return (

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { StyleProp, ActivityIndicatorProps, TextInputProps, ViewStyle } from 'react-native';
+import { StyleProp, ActivityIndicatorProps, TextInputProps, ViewStyle, TextStyle, TouchableOpacityProps } from 'react-native';
 
+export interface STextProps extends TextStyle {
+}
+export class SText extends React.Component<SInputProps, any> { }
 export interface SInputProps extends TextInputProps {
     title: string,
     value?: string,
@@ -47,3 +50,29 @@ export interface ActionButtonProps {
     colorText?: string
 }
 export class ActionButton extends React.Component<ActionButtonProps, any> { }
+
+export interface SButtonProps extends TouchableOpacityProps {
+    /** Inner component */
+    children?: Component,
+    /**
+     * Style of Text
+     * You can config fontWeight to use SFProDisplay font
+     */
+    style?: StyleProp<ViewStyle>
+    onPressLeft?: Function,
+    disabledLeft?: boolean,
+    titleLeft?: string,
+    styleLeft?: TouchableOpacityProps,
+    onPressRight?: Function,
+    titleRight?: string,
+    disabledRight?: boolean,
+    styleRight?: TouchableOpacityProps,
+    animation: boolean,
+    noPosition: boolean,
+    hideWhenKeyboardAppears: boolean,
+    loading: boolean,
+}
+/**
+ * Custom Button component, use this instead react-native Button with bound layout shadow
+ */
+export class SButton extends React.Component<SButtonProps, any> { }

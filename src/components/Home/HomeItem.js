@@ -14,13 +14,12 @@ import {
   FONT_SIZE,
   SHADOW_BOX,
 } from 'common/StyleCommon';
-import {customAlert} from 'helpers/AlertHelper';
 
-const HomeItem = ({item, paddingBottom}) => {
+const HomeItem = ({item, paddingBottom, onPress}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      onPress={() => customAlert('123')}
+      onPress={onPress}
       style={[styles.container, {paddingBottom}]}>
       <ImageBackground
         style={styles.image}

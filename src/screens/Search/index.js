@@ -19,5 +19,5 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
-  searchInput: {marginHorizontal: 15, marginBottom: 15},
+  searchInput: {marginHorizontal: 15, marginBottom: 15, marginTop: 10},
 });
