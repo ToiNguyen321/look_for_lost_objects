@@ -15,6 +15,8 @@ import {
 import {COLORS, FONT_SIZE} from 'common/StyleCommon';
 import STextInput from 'components/STextInput';
 import SCREENS from 'navigator';
+import sagaActions from 'store/sagas/sagaActions';
+import {useDispatch} from 'react-redux';
 const {width, height} = Dimensions.get('window');
 
 const HEIGHT_TOP_BOT = height / 4.5;
@@ -26,6 +28,8 @@ if (Platform.OS === 'android') {
 }
 
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -106,7 +110,11 @@ const Login = ({navigation}) => {
             Quên mật khẩu?{' '}
           </SText>
           <View style={styles.bottom}>
-            <TouchableOpacity style={styles.btnLogin} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.btnLogin}
+              onPress={() => {
+                dispatch({type: sagaActions.LOGIN_PENDING});
+              }}>
               <SText style={styles.titleBtnLogin}>Đăng nhập</SText>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToRegister}>
