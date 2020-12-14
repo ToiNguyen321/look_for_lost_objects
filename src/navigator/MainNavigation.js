@@ -14,42 +14,44 @@ import Search from 'screens/Search';
 import AddNew from 'screens/Home/AddNew';
 import AddressPicker from 'screens/AddressPicker';
 import HomeDetail from 'screens/Home/Detail';
+import Profile from 'screens/Profile';
+import Login from 'screens/Auth/Login';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const ScreenOption = (navigation, route, dispatch) => {
-  if (!route.state || !route.state.routeNames) {
-    return {
-      headerTitle: 'Trang chủ',
-      headerLeft: null,
-      headerRight: () => {
-        return (
-          <View>
-            <TouchableOpacity
-              style={{marginRight: 15}}
-              onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}>
-              <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{marginRight: 15}}
-              onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}>
-              <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
-            </TouchableOpacity>
-          </View>
-        );
-      },
-    };
-  }
+  // if (!route.state || !route.state.routeNames) {
+  //   return {
+  //     headerTitle: 'Trang chủ',
+  //     headerLeft: null,
+  //     headerRight: () => {
+  //       return (
+  //         <View style={{flexDirection: 'row', alignItems: 'center'}}>
+  //           <TouchableOpacity
+  //             style={{marginRight: 15}}
+  //             onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}>
+  //             <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
+  //           </TouchableOpacity>
+  //           <TouchableOpacity style={{marginRight: 15}} onPress={() => {}}>
+  //             <Ionicons size={22.5} color={'#000'} name={'filter'} />
+  //           </TouchableOpacity>
+  //         </View>
+  //       );
+  //     },
+  //   };
+  // }
 
   // use this params to set action for header button
-  switch (route.state.routeNames[route.state.index]) {
+  switch (route?.state?.routeNames[route?.state?.index]) {
+    default:
     case SCREENS.HOME.LIST:
       return {
         headerTitle: 'Home',
         headerLeft: null,
         headerTransparent: false,
         headerTitleStyle: null,
+        headerStyle: null,
         headerRight: () => {
           return (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -58,7 +60,11 @@ const ScreenOption = (navigation, route, dispatch) => {
                 onPress={() => navigation.navigate(SCREENS.SEARCH.SEARCH)}>
                 <Ionicons size={22.5} color={'#000'} name={'ios-search'} />
               </TouchableOpacity>
-              <TouchableOpacity style={{marginRight: 15}} onPress={() => {}}>
+              <TouchableOpacity
+                style={{marginRight: 15}}
+                onPress={() => {
+                  navigation.toggleDrawer();
+                }}>
                 <Ionicons size={22.5} color={'#000'} name={'filter'} />
               </TouchableOpacity>
             </View>
@@ -93,14 +99,14 @@ const ScreenOption = (navigation, route, dispatch) => {
           elevation: 0,
         },
       };
-    default:
-      return {
-        headerTitle: '',
-        headerLeft: null,
-        headerRight: null,
-        headerTitleStyle: null,
-        headerStyle: null,
-      };
+    // default:
+    //   return {
+    //     headerTitle: '',
+    //     headerLeft: null,
+    //     headerRight: null,
+    //     headerTitleStyle: null,
+    //     headerStyle: null,
+    //   };
   }
 };
 
@@ -160,8 +166,10 @@ export default function MainNavigation() {
     <NavigationContainer ref={navigation}>
       <Stack.Navigator>
         <Stack.Screen name={SCREENS.MAIN_TAB} component={MainTabs} />
+        <Stack.Screen name={SCREENS.AUTH.LOGIN} component={Login} />
         <Stack.Screen name={SCREENS.HOME.ADD} component={AddNew} />
         <Stack.Screen name={SCREENS.HOME.DETAIL} component={HomeDetail} />
+        <Stack.Screen name={SCREENS.PROFILE.PROFILE} component={Profile} />
         <Stack.Screen
           name={SCREENS.COMMON.CHOOSE_ADDRESS}
           component={AddressPicker}

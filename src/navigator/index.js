@@ -1,5 +1,9 @@
 const SCREENS = {
   MAIN_TAB: 'MainTabs',
+  AUTH: {
+    LOGIN: 'Login',
+    SIGN_IN: 'SignIn',
+  },
   HOME: {
     LIST: 'Home',
     ADD: 'AddNew',

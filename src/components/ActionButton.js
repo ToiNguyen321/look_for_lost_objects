@@ -17,7 +17,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const {width, height} = Dimensions.get('window');
 const WIDTH_ITEM = 50;
 const HEIGHT_ITEM = 65;
-const BACKGROUND_COLOR = '#101A28';
+// const BACKGROUND_COLOR = '#101A28';
+const BACKGROUND_COLOR = '#3375f5';
 const MARGIN_TOP_ITEM = 15;
 
 ActionButton.defaultProps = {
@@ -45,7 +46,7 @@ export default function ActionButton({
   const CONFIG = useRef({
     ITEM_WIDTH: itemWidth,
     ITEM_HEIGHT: itemWidth + spaceBetweenButton,
-    BACKGROUND_COLOR: '#101A28',
+    BACKGROUND_COLOR: '#3375f5',
     MARGIN_TOP_ITEM: spaceBetweenButton,
     RIGHT: right,
     BOTTOM: bottom,

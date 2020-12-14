@@ -2,12 +2,20 @@ import {Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 const COLORS = {
+  MAIN: '#3375f5',
   WHITE: '#fff',
-  BLUE: '#3389ff',
+  BLUE: '#3375f5',
   BLACK: '#18191a',
   ORANGE: 'orange',
   GREEN: 'green',
   GRAY: 'gray',
+  PRIMARY: '#00a5ff',
+  TEXT_WHITE: '#ffffff',
+  TEXT_PRIMARY: '#00a5ff',
+};
+
+const COLORS_DARK = {
+  MAIN: '#18191a',
 };
 
 const DIMENTSIONS = {
@@ -42,4 +50,4 @@ const SHADOW_BOX = (elevation, shadowColor = '#000') => {
     elevation,
   };
 };
-export {COLORS, FONT_SIZE, DIMENTSIONS, BORDER_RADIUS, SHADOW_BOX};
+export {COLORS, COLORS_DARK, FONT_SIZE, DIMENTSIONS, BORDER_RADIUS, SHADOW_BOX};

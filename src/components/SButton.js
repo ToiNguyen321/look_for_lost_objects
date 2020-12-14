@@ -11,7 +11,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import SActivityIndicator from './SActivityIndicator';
 import SText from 'components/SText';
 
-export default function SButtonShadow({
+export default function SButton({
   children,
   title,
   animation,
@@ -131,7 +131,7 @@ export default function SButtonShadow({
   );
 }
 
-SButtonShadow.defaultProps = {
+SButton.defaultProps = {
   animation: true,
   hideWhenKeyboardAppears: true,
   noPosition: false,

@@ -1,16 +1,9 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-  LogBox,
-} from 'react-native';
+import {StyleSheet, View, FlatList, LogBox, SectionList} from 'react-native';
 import HomeItem from 'components/Home/HomeItem';
 import stylesGlobal from 'theme/stylesGlobal';
 import {BORDER_RADIUS, COLORS, FONT_SIZE} from 'common/StyleCommon';
-import {ActionButton} from 'components';
+import {ActionButton, SText} from 'components';
 import SCREENS from 'navigator';
 const dataExample = [
   {
@@ -76,30 +69,40 @@ export default function Home({navigation, route}) {
     return <HomeItem item={item} onPress={onPress} paddingBottom={15} />;
   };
 
+  const headerComponent = () => (
+    <View style={styles.viewNews}>
+      <SText style={styles.title}>Tin nổi bật</SText>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        pagingEnabled
+        data={dataExample}
+        renderItem={renderItem}
+        keyExtractor={(i) => `${i.id}`}
+      />
+    </View>
+  );
+
+  const sectionHeader = ({section: {title}}) => (
+    <SText style={styles.title}>{title}</SText>
+  );
+
+  const sections = [
+    {title: 'Danh Mục A', data: dataExample},
+    {title: 'Danh Mục B', data: dataExample},
+  ];
+
   return (
     <View style={[stylesGlobal.container]}>
-      <ScrollView>
-        <View style={styles.viewNews}>
-          <Text style={styles.title}>Tin nổi bật</Text>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            horizontal
-            pagingEnabled
-            data={dataExample}
-            renderItem={renderItem}
-            keyExtractor={(i) => `${i.id}`}
-          />
-        </View>
-
-        <View style={styles.viewNews}>
-          <Text style={styles.title}>Tin đăng mới nhất</Text>
-          <FlatList
-            data={dataExample}
-            renderItem={renderItem2}
-            keyExtractor={(i) => `${i.id}`}
-          />
-        </View>
-      </ScrollView>
+      <SectionList
+        ListHeaderComponent={headerComponent}
+        sections={sections}
+        renderItem={renderItem2}
+        keyExtractor={(i) => `${i.id}`}
+        renderSectionHeader={sectionHeader}
+        stickySectionHeadersEnabled={false}
+        contentContainerStyle={styles.contentContainerStyle}
+      />
       <ActionButton
         buttonsDefault={[
           {
@@ -113,6 +116,10 @@ export default function Home({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
+  contentContainerStyle: {
+    flexGrow: 1,
+    paddingBottom: 70,
+  },
   viewNews: {
     marginBottom: 20,
   },
