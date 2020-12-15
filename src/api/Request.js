@@ -30,3 +30,18 @@ export const buildGetParams = (params, haveQuestionMark = false) => {
 export const auth_login = (params) => {
   return processResponse(SAxios.post(`${Urls.URL_AUTH}/login`, params));
 };
+export const auth_me = () => {
+  return processResponse(SAxios.post(`${Urls.URL_AUTH}/me`));
+};
+
+/** BEGIN USERS requests */
+export const user_create = (params) => {
+  return processResponse(SAxios.post(`${Urls.URL_USERS}`, params));
+};
+
+/** BEGIN USERS requests */
+export const news = (params) => {
+  return processResponse(
+    SAxios.get(`${Urls.URL_NEWS}${buildGetParams(params)}`),
+  );
+};

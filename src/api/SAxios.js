@@ -1,8 +1,9 @@
 import axios from 'axios';
-import SInfo from 'react-native-sensitive-info';
 import {IsProduction} from '../../App';
 import RNRestart from 'react-native-restart';
 import store from 'store/store';
+import SInfoHelper from 'helpers/SInfoHelper';
+import KEY_STORAGE from 'common/StorageCommon';
 // import {writeAxiosRequestError} from 'utils/FirebaseStorage';
 
 export const BASE_URL = __DEV__
@@ -27,7 +28,9 @@ const SAxios = axios.create({
 SAxios.interceptors.request.use(
   async function (config) {
     if (store.getState().authReducer.isLogin) {
-      const BearerToken = await SInfo.getItem('BearerTokenSpaGo', {});
+      const BearerToken = await SInfoHelper.getItem(
+        KEY_STORAGE.KEY_ACCESS_TOKEN,
+      );
       config.headers.common.Authorization = BearerToken;
     }
     config.baseURL = base_url();
@@ -48,14 +51,14 @@ SAxios.interceptors.response.use(
     // writeAxiosRequestError(error);
 
     if ((error?.response?.data?.detail ?? '') === 'USER_BLOCKED') {
-      SInfo.deleteItem('BearerTokenSpaGo', {}).then(() => {
+      SInfoHelper.deleteItem('BearerTokenApp', {}).then(() => {
         // RNRestart.Restart();
       });
       return Promise.reject(Error('USER_BLOCKED'));
     }
     if (is401Error(error)) {
       // token expired
-      SInfo.deleteItem('BearerTokenSpaGo', {}).then(() => {
+      SInfoHelper.deleteItem('BearerTokenApp', {}).then(() => {
         // RNRestart.Restart();
       });
     }

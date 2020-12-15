@@ -15,8 +15,9 @@ import {
 import {COLORS, FONT_SIZE} from 'common/StyleCommon';
 import STextInput from 'components/STextInput';
 import SCREENS from 'navigator';
-import sagaActions from 'store/sagas/sagaActions';
 import {useDispatch} from 'react-redux';
+import {Controller, useForm} from 'react-hook-form';
+import {S_ACTIONS} from 'store/sagas/sagaActions';
 const {width, height} = Dimensions.get('window');
 
 const HEIGHT_TOP_BOT = height / 4.5;
@@ -29,6 +30,8 @@ if (Platform.OS === 'android') {
 
 const Login = ({navigation}) => {
   const dispatch = useDispatch();
+
+  const {handleSubmit, errors, control} = useForm();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,15 +65,20 @@ const Login = ({navigation}) => {
   }, []);
 
   const goToRegister = () => {
-    navigation.navigate(SCREENS.AUTH.SIGN_IN);
+    navigation.navigate(SCREENS.AUTH.REGISTER);
   };
 
   const onLayout = (e) => {
-    console.log(
-      '🚀 ~ file: Login.js ~ line 61 ~ onLayout ~ e',
-      e,
-      e.nativeEvent.layout.height,
-    );
+    // console.log(
+    //   '🚀 ~ file: Login.js ~ line 61 ~ onLayout ~ e',
+    //   e,
+    //   e.nativeEvent.layout.height,
+    // );
+  };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(S_ACTIONS.loginPending(data));
   };
 
   return (
@@ -95,14 +103,52 @@ const Login = ({navigation}) => {
 
         <View style={styles.content} onLayout={onLayout}>
           <SText style={styles.title}> ĐĂNG NHẬP </SText>
-          <STextInput title="Phone" />
-          <STextInput
-            title="Password"
-            rightIconName={
-              orientation === 'PORTRAIT' ? 'eye-outline' : 'eye-off-outline'
-            }
-            styleContainer={styles.passwordInput}
+          <Controller
+            control={control}
+            name="phone_number"
+            render={(
+              {onChange, onBlur, value},
+              {invalid, isTouched, isDirty},
+            ) => {
+              return (
+                <STextInput
+                  {...{onBlur, value}}
+                  onChangeText={(txt) => onChange(txt)}
+                  title="Phone"
+                  error={errors.phone_number}
+                />
+              );
+            }}
+            rules={{required: true}}
+            defaultValue=""
           />
+
+          <Controller
+            control={control}
+            name="password"
+            render={(
+              {onChange, onBlur, value},
+              {invalid, isTouched, isDirty},
+            ) => {
+              return (
+                <STextInput
+                  {...{onBlur, value}}
+                  onChangeText={(txt) => onChange(txt)}
+                  title="password"
+                  error={errors.password}
+                  styleContainer={styles.passwordInput}
+                  rightIconName={
+                    orientation === 'PORTRAIT'
+                      ? 'eye-outline'
+                      : 'eye-off-outline'
+                  }
+                />
+              );
+            }}
+            rules={{required: true}}
+            defaultValue=""
+          />
+
           <SText
             onPress={() => console.log('Forgot password')}
             style={styles.forgotPassword}>
@@ -112,9 +158,7 @@ const Login = ({navigation}) => {
           <View style={styles.bottom}>
             <TouchableOpacity
               style={styles.btnLogin}
-              onPress={() => {
-                dispatch({type: sagaActions.LOGIN_PENDING});
-              }}>
+              onPress={handleSubmit(onSubmit)}>
               <SText style={styles.titleBtnLogin}>Đăng nhập</SText>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToRegister}>

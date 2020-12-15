@@ -5,6 +5,8 @@ import stylesGlobal from 'theme/stylesGlobal';
 import {BORDER_RADIUS, COLORS, FONT_SIZE} from 'common/StyleCommon';
 import {ActionButton, SText} from 'components';
 import SCREENS from 'navigator';
+import {useDispatch} from 'react-redux';
+import {S_ACTIONS} from 'store/sagas/sagaActions';
 const dataExample = [
   {
     id: 0,
@@ -53,9 +55,24 @@ const dataExample = [
 ];
 
 export default function Home({navigation, route}) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
+  useEffect(() => {
+    console.log(
+      '🚀 ~ file: index.js ~ line 123 ~ fetchList ~ S_ACTIONS',
+      S_ACTIONS,
+    );
+
+    fetchList();
+  });
+
+  const fetchList = () => {
+    dispatch(S_ACTIONS.newsPending({}));
+  };
 
   const renderItem = ({item, index}) => {
     const onPress = () =>
@@ -95,6 +112,8 @@ export default function Home({navigation, route}) {
   return (
     <View style={[stylesGlobal.container]}>
       <SectionList
+        refreshing={false}
+        onRefresh={fetchList}
         ListHeaderComponent={headerComponent}
         sections={sections}
         renderItem={renderItem2}

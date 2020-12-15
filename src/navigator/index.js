@@ -2,7 +2,7 @@ const SCREENS = {
   MAIN_TAB: 'MainTabs',
   AUTH: {
     LOGIN: 'Login',
-    SIGN_IN: 'SignIn',
+    REGISTER: 'Register',
   },
   HOME: {
     LIST: 'Home',

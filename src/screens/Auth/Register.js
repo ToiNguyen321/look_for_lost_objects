@@ -14,11 +14,36 @@ import {
 import {COLORS, FONT_SIZE} from 'common/StyleCommon';
 import STextInput from 'components/STextInput';
 import SCREENS from 'navigator';
+import {useForm} from 'react-hook-form';
+import {useDispatch} from 'react-redux';
+import {S_ACTIONS} from 'store/sagas/sagaActions';
 const {width, height} = Dimensions.get('window');
 
 const HEIGHT_TOP_BOT = height / 5;
 
-const SignIn = ({navigation}) => {
+const Register = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {register, handleSubmit, errors, watch, setValue} = useForm({
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+    resolver: undefined,
+    context: undefined,
+    criteriaMode: 'firstError',
+    shouldFocusError: true,
+    shouldUnregister: true,
+    defaultValues: {
+      full_name: '',
+      phone_number: '',
+      password: '',
+    },
+  });
+
+  useEffect(() => {
+    register({name: 'full_name'}, {required: true});
+    register({name: 'phone_number'}, {required: true});
+    register({name: 'password'}, {required: true});
+  }, [register]);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -55,12 +80,22 @@ const SignIn = ({navigation}) => {
   };
 
   const onLayout = (e) => {
-    console.log(
-      '🚀 ~ file: Login.js ~ line 61 ~ onLayout ~ e',
-      e,
-      e.nativeEvent.layout.height,
-    );
+    // console.log(
+    //   '🚀 ~ file: Login.js ~ line 61 ~ onLayout ~ e',
+    //   e,
+    //   e.nativeEvent.layout.height,
+    // );
   };
+  const onSubmit = (data) => {
+    dispatch(S_ACTIONS.registerPending(data));
+  };
+
+  const values = watch();
+  console.log(
+    '🚀 ~ file: SignIn.js ~ line 106 ~ SignIn ~ values',
+    values,
+    errors,
+  );
 
   return (
     <KeyboardAvoidingView
@@ -83,16 +118,37 @@ const SignIn = ({navigation}) => {
         </View>
         <View style={styles.content} onLayout={onLayout}>
           <SText style={styles.title}> ĐĂNG KÝ </SText>
-          <STextInput title={'Họ & tên'} />
-          <STextInput title="Số điện thoại" />
+          <STextInput
+            title={'Họ & tên'}
+            onChangeText={(txt) =>
+              setValue('full_name', txt, {shouldValidate: true})
+            }
+            error={errors.full_name}
+            value={values.full_name}
+          />
+          <STextInput
+            title="Số điện thoại"
+            onChangeText={(txt) =>
+              setValue('phone_number', txt, {shouldValidate: true})
+            }
+            error={errors.phone_number}
+            value={values.phone_number}
+          />
           <STextInput
             title="Mật khẩu"
             rightIconName={
               orientation === 'PORTRAIT' ? 'eye-outline' : 'eye-off-outline'
             }
+            onChangeText={(txt) =>
+              setValue('password', txt, {shouldValidate: true})
+            }
+            error={errors.password}
+            value={values.password}
           />
           <View style={styles.bottom}>
-            <TouchableOpacity style={styles.btnLogin} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.btnLogin}
+              onPress={handleSubmit(onSubmit)}>
               <SText style={styles.titleBtnLogin}>Đăng ký</SText>
             </TouchableOpacity>
             <TouchableOpacity>
@@ -107,7 +163,7 @@ const SignIn = ({navigation}) => {
   );
 };
 
-export default SignIn;
+export default Register;
 
 const styles = StyleSheet.create({
   container: {
